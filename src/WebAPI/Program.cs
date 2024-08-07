@@ -4,6 +4,7 @@ using Application;
 using Infrastructure;
 using Infrastructure.Middlewares;
 using WebAPI.Infrastructure;
+using Persistence;
 
 public partial class Program {
     private static void Main(string[] args)
@@ -17,8 +18,8 @@ public partial class Program {
 
         builder.Services.AddApplicationServices();
         builder.Services.AddInfrastructureServices(builder.Configuration);
-    //    builder.Services.AddPersistenceServices(builder.Configuration);
-       builder.AddInfrastructure();
+        builder.Services.AddPersistenceServices(builder.Configuration);
+        builder.AddInfrastructure();
 
         builder.Services.AddControllers().AddJsonOptions(x =>
         {
@@ -29,9 +30,6 @@ public partial class Program {
 
         app.UseMiddleware<ExceptionHandlingMiddleware>();
         app.UseSerilogRequestLogging();
-
-        //await app.MigrateDatabase();
-        //await app.InitializeDatabase(app.Environment.IsDevelopment() || app.Environment.IsEnvironment("It"));
 
         app.UseOpenApi();
         app.UseSwaggerUI();

@@ -1,4 +1,6 @@
-﻿namespace Application.Features.Customers.CreateCustomer;
+﻿using Application.Constants;
+
+namespace Application.Features.Customers.CreateCustomer;
 
 public class CreateCustomerCommandValidator : AbstractValidator<CreateCustomerCommand>
 {
@@ -6,20 +8,20 @@ public class CreateCustomerCommandValidator : AbstractValidator<CreateCustomerCo
     {
         RuleFor(p => p.FirstName)
             .NotEmpty()
-            .MaximumLength(100);
+            .MaximumLength(AppConstants.MaxTextLength);
 
         RuleFor(p => p.LastName)
             .NotEmpty()
-            .MaximumLength(100);
+            .MaximumLength(AppConstants.MaxTextLength);
 
         RuleFor(p => p.Address)
             .NotEmpty()
-            .MaximumLength(256);
+            .MaximumLength(AppConstants.MaxTextLength);
 
         RuleFor(p => p.Email)
            .NotEmpty()
            .EmailAddress()
-           .WithMessage("Invalid email format.");
+           .WithMessage(AppConstants.InvalidEmailMessage);
 
     }
 }

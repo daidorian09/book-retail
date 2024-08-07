@@ -1,4 +1,6 @@
-﻿using Domain.Entities;
+﻿using Application.Constants;
+using Application.Persistence;
+using Domain.Entities;
 
 namespace Application.Features.Customers.CreateCustomer;
 
@@ -12,13 +14,22 @@ public class CreateCustomerCommand : IRequest<Result<CreateCustomerCommandRespon
 
 public class CreateCustomerCommandHandler : IRequestHandler<CreateCustomerCommand, Result<CreateCustomerCommandResponse>>
 {
-    public CreateCustomerCommandHandler()
+    private readonly IRepository<Customer> _customerRepository;
+
+    public CreateCustomerCommandHandler(IRepository<Customer> customerRepository)
     {
-        
+        _customerRepository = customerRepository;
     }
 
     public async Task<Result<CreateCustomerCommandResponse>> Handle(CreateCustomerCommand request, CancellationToken cancellationToken)
     {
+        var existsResult = await _customerRepository.ExistsAsync(AppConstants.CustomerBucket, AppConstants.EmailField, request.Email);
+
+        if(existsResult)
+        {
+            throw new Exceptions.CustomerExistsException(AppConstants.CustomerExists);
+        }
+
         var customer = new Customer
         {
             Id = Guid.NewGuid(),
@@ -26,8 +37,10 @@ public class CreateCustomerCommandHandler : IRequestHandler<CreateCustomerComman
             LastName = request.LastName,
             Address = request.Address,
             Email = request.Email,
-            CreatedDate = DateTimeOffset.UtcNow
+            CreatedDate = (long)DateTime.UtcNow.Subtract(DateTime.UnixEpoch).TotalSeconds
         };
+
+        await _customerRepository.CreateAsync("customer", customer.Id.ToString(), customer);
 
         return Result.Ok(new CreateCustomerCommandResponse { Id = customer.Id });
     }

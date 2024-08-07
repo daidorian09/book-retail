@@ -24,7 +24,7 @@ public class UpdateBookStockCommandHandler : IRequestHandler<UpdateBookStockComm
             Id = Guid.NewGuid(),
             BookStatus = Enum.Parse<BookStatus>(request.BookStatus),
             Quantity = request.Quantity,
-            CreatedDate = DateTimeOffset.UtcNow
+            CreatedDate = DateTimeOffset.UtcNow.ToUnixTimeSeconds()
         };
 
         return Result.Ok(new UpdateBookStockCommandResponse { Id = customer.Id });

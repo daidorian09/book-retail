@@ -1,4 +1,5 @@
-﻿using Domain.Enums;
+﻿using Application.Constants;
+using Domain.Enums;
 
 namespace Application.Features.Books.CreateBook;
 
@@ -13,32 +14,32 @@ public class CreateBookCommandValidator : AbstractValidator<CreateBookCommand>
     {
         RuleFor(p => p.Author)
             .NotEmpty()
-            .MaximumLength(100);
+            .MaximumLength(AppConstants.MaxTextLength);
 
         RuleFor(p => p.Title)
             .NotEmpty()
-            .MaximumLength(100);
+            .MaximumLength(AppConstants.MaxTextLength);
 
         RuleFor(p => p.ISBN)
-            .Matches(@"^(?=(?:[^0-9]*[0-9]){10}(?:(?:[^0-9]*[0-9]){3})?$)[\d-]+$")
-            .WithMessage("Invalid ISBN format.");
+            .Matches(AppConstants.IsbnRegex)
+            .WithMessage(AppConstants.InvalidIsbnMessage);
 
         RuleFor(p => p.Image)
            .NotEmpty()
-           .MaximumLength(100);
+           .MaximumLength(AppConstants.MaxTextLength);
 
         RuleFor(p => p.Price)
-            .GreaterThan(0)
-            .WithMessage("Price should be greater than 0");
+            .GreaterThan(AppConstants.MinPrice)
+            .WithMessage(AppConstants.InvalidPriceMessage);
 
         RuleFor(p => p.Quantity)
-           .GreaterThan(-1)
-           .WithMessage("Quantity should be greater than -1");
+           .GreaterThan(AppConstants.InvalidQuantity)
+           .WithMessage(AppConstants.InvalidQuantityMessage);
 
         RuleFor(p => p.BookStatus)
             .NotNull()
             .Must(IsBookStatusAllowed)
-            .WithMessage("BookStatus must be Created");
+            .WithMessage(AppConstants.InvalidBookStatusMessage);
 
     }
 

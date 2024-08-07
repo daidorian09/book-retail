@@ -34,7 +34,7 @@ public class CreateBookCommandHandler : IRequestHandler<CreateBookCommand, Resul
             Price = request.Price,
             Title = request.Title,
             Quantity = request.Quantity,
-            CreatedDate = DateTimeOffset.UtcNow
+            CreatedDate = DateTimeOffset.UtcNow.ToUnixTimeSeconds()
         };
 
         return Result.Ok(new CreateBookCommandResponse { Id = customer.Id });
