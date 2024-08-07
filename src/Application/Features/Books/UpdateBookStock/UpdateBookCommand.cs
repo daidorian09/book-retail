@@ -29,18 +29,18 @@ public class UpdateBookStockCommandHandler : IRequestHandler<UpdateBookStockComm
             throw new Exceptions.NotFoundException(AppConstants.BookRecordNotFound);
         }
 
-        var fieldsToUpdate = extractFieldsToUpdate(request, book);
+        var fieldsToUpdate = ExtractFieldsToUpdate(request, book);
 
         await _bookRepository.PartialUpdateAsync(AppConstants.BookBucket, book.Id.ToString(), fieldsToUpdate, cas);
 
         return Result.Ok(true);
     }
 
-    private Dictionary<string, object> extractFieldsToUpdate(UpdateBookStockCommand request, Book book)
+    private static Dictionary<string, object> ExtractFieldsToUpdate(UpdateBookStockCommand request, Book book)
     {
         return new Dictionary<string, object>
         {
-            { AppConstants.LastModifiedDate, DateTimeOffset.UtcNow.ToUnixTimeSeconds() },
+            { AppConstants.LastModifiedDateField, DateTimeOffset.UtcNow.ToUnixTimeSeconds() },
             { AppConstants.QuantityField, request.Quantity },
             { AppConstants.BookStatusField, request.Quantity == 0 ? BookStatus.OutOfStock :  book.BookStatus}
         };

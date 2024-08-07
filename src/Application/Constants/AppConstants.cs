@@ -33,6 +33,7 @@ namespace Application.Constants
         public const string ExceptionInRequest = "Exception in request";
         public const string CustomerExists = "Customer is registered";
         public const string BookRecordNotFound = "Book record is not found";
+        public const string OrderRecordNotFound = "Order record is not found";
 
         public static readonly HashSet<BookStatus> AllowedBookStatuses = new()
         {
@@ -46,6 +47,7 @@ namespace Application.Constants
         public const string CustomerIdField = "customer.id";
         public const string QuantityField = "quantity";
         public const string BookStatusField = "bookStatus";
-        public const string LastModifiedDate = "lastModifiedDate";
+        public const string LastModifiedDateField = "lastModifiedDate";
+        public const string OutOfStockField = "outOfStock";
     }
 }

@@ -25,4 +25,12 @@ public class OrderController : ControllerBase
         var result = await _mediator.Send(command);
         return result.ToCreatedHttpResponse();
     }
+
+    [ApiConventionMethod(typeof(ApiConventions), nameof(ApiConventions.Get))]
+    [HttpGet("{id:Guid}", Name = "GetOrder")]
+    public async Task<ActionResult> Get(Guid id)
+    {
+        var result = await _mediator.Send(new GetOrderQuery { Id = id.ToString() });
+        return result.ToHttpResponse();
+    }
 }

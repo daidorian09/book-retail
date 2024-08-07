@@ -29,10 +29,18 @@ namespace Persistence.Repository
 
         public async Task<T> GetByIdAsync(string bucketName, string id)
         {
-            var bucket = await GetBucketAsync(bucketName);
-            var collection = bucket.DefaultCollection();
-            var result = await collection.GetAsync(id);
-            return result.ContentAs<T>();
+            try
+            {
+                var bucket = await GetBucketAsync(bucketName);
+                var collection = bucket.DefaultCollection();
+                var result = await collection.GetAsync(id);
+                return result.ContentAs<T>();
+            }
+            catch (Exception)
+            {
+                return default;
+            }
+            
         }
 
         public async Task<bool> ExistsAsync(string bucketName, string fieldName, string value)
@@ -72,10 +80,8 @@ namespace Persistence.Repository
             }
             catch (Exception)
             {
-
                 return default;
-            }
-            
+            }            
         }
 
         public async Task<(T, ulong cas)> GetByIdWithCasAsync(string bucketName, string id)
