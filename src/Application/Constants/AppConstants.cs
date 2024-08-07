@@ -1,4 +1,6 @@
-﻿namespace Application.Constants
+﻿using Domain.Enums;
+
+namespace Application.Constants
 {
     public class AppConstants
     {
@@ -30,11 +32,20 @@
         public const string ServerError = "Server Error";
         public const string ExceptionInRequest = "Exception in request";
         public const string CustomerExists = "Customer is registered";
+        public const string BookRecordNotFound = "Book record is not found";
+
+        public static readonly HashSet<BookStatus> AllowedBookStatuses = new()
+        {
+            BookStatus.Created,
+        };
 
         public const string OrderBucket = "order";
         public const string CustomerBucket = "customer";
         public const string BookBucket = "book";
         public const string EmailField = "email";
         public const string CustomerIdField = "customer.id";
+        public const string QuantityField = "quantity";
+        public const string BookStatusField = "bookStatus";
+        public const string LastModifiedDate = "lastModifiedDate";
     }
 }

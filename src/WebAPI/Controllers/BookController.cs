@@ -1,4 +1,5 @@
 ﻿using Application.Features.Books.CreateBook;
+using Application.Features.Books.UpdateBookStock;
 using Infrastructure.Controllers;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -24,5 +25,13 @@ public class BookController : ControllerBase
     {
         var result = await _mediator.Send(command);
         return result.ToCreatedHttpResponse();
+    }
+
+    [ApiConventionMethod(typeof(ApiConventions), nameof(ApiConventions.Update))]
+    [HttpPatch(Name = "UpdateBookStock")]
+    public async Task<ActionResult> Update(UpdateBookStockCommand command)
+    {
+        var result = await _mediator.Send(command);
+        return result.ToCreatedNoContentResponse();
     }
 }

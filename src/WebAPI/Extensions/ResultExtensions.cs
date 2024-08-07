@@ -31,6 +31,18 @@ public static class ResultExtensions
         return HandleError(result);
     }
 
+    public static ActionResult ToCreatedNoContentResponse<T>(this Result<T> result)
+    {
+        if (result.IsSuccess)
+        {
+            return new ObjectResult(result.Value)
+            {
+                StatusCode = StatusCodes.Status204NoContent
+            };
+        }
+        return HandleError(result);
+    }
+
     private static ObjectResult HandleError<T>(Result<T> result)
     {
         var firstError = result.Errors.FirstOrDefault();

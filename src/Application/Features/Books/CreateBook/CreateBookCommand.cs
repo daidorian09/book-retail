@@ -1,4 +1,6 @@
-﻿using Domain.Entities;
+﻿using Application.Constants;
+using Application.Persistence;
+using Domain.Entities;
 using Domain.Enums;
 
 namespace Application.Features.Books.CreateBook;
@@ -11,24 +13,25 @@ public class CreateBookCommand : IRequest<Result<CreateBookCommandResponse>>
     public string Image { get; set; }
     public decimal Price { get; set; }
     public int Quantity { get; set; }
-    public string BookStatus { get; set; }
 }
 
 public class CreateBookCommandHandler : IRequestHandler<CreateBookCommand, Result<CreateBookCommandResponse>>
 {
-    public CreateBookCommandHandler()
-    {
+    private readonly IRepository<Book> _bookRepository;
 
+    public CreateBookCommandHandler(IRepository<Book> bookRepository)
+    {
+        _bookRepository = bookRepository;
     }
 
     public async Task<Result<CreateBookCommandResponse>> Handle(CreateBookCommand request, CancellationToken cancellationToken)
     {
-        var customer = new Book
+        var book = new Book
         {
             Id = Guid.NewGuid(),
             Author = request.Author,
             Image = request.Image,
-            BookStatus = Enum.Parse<BookStatus>(request.BookStatus),
+            BookStatus = BookStatus.Created,
             ISBN = request.ISBN,
             OutOfStock = default,
             Price = request.Price,
@@ -37,6 +40,8 @@ public class CreateBookCommandHandler : IRequestHandler<CreateBookCommand, Resul
             CreatedDate = DateTimeOffset.UtcNow.ToUnixTimeSeconds()
         };
 
-        return Result.Ok(new CreateBookCommandResponse { Id = customer.Id });
+        await _bookRepository.CreateAsync(AppConstants.BookBucket, book.Id.ToString(), book);
+
+        return Result.Ok(new CreateBookCommandResponse { Id = book.Id });
     }
 }
