@@ -3,7 +3,6 @@ using Application.Features.Customers.GetCustomerOrders;
 using Application.Persistence;
 using AutoFixture;
 using AutoFixture.AutoMoq;
-using Domain.Entities;
 using Moq;
 using Newtonsoft.Json.Linq;
 using Shouldly;
@@ -14,12 +13,12 @@ public class GetCustomerOrdersQueryTests
 {
     private readonly IFixture _fixture;
     private readonly GetCustomerOrdersQueryHandler _sut;
-    private readonly Mock<IRepository<Order>> _orderRepository;
+    private readonly Mock<IRepository<Domain.Entities.Order>> _orderRepository;
 
     public GetCustomerOrdersQueryTests()
     {
         _fixture = new Fixture().Customize(new AutoMoqCustomization());
-        _orderRepository = _fixture.Freeze<Mock<IRepository<Order>>>();
+        _orderRepository = _fixture.Freeze<Mock<IRepository<Domain.Entities.Order>>>();
         _sut = _fixture.Create<GetCustomerOrdersQueryHandler>();
     }
 
