@@ -13,6 +13,8 @@ namespace Application.Constants
         public const int MaxPageSize = 100;
         public const int InvalidQuantity = -1;
         public const decimal MinPrice = 0;
+        public const int MinStartDate = 0;
+        public const int MinEndDate = 0;
 
         public const string IsbnRegex = @"^(?=(?:[^0-9]*[0-9]){10}(?:(?:[^0-9]*[0-9]){3})?$)[\d-]+$";
         public const string InvalidIsbnMessage = "Invalid ISBN format.";
@@ -49,5 +51,6 @@ namespace Application.Constants
         public const string BookStatusField = "bookStatus";
         public const string LastModifiedDateField = "lastModifiedDate";
         public const string OutOfStockField = "outOfStock";
+        public const string OrderDateField = "orderDate";
     }
 }

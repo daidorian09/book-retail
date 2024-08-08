@@ -1,4 +1,5 @@
 ﻿using Application.Features.Orders.CreateOrder;
+using Application.Features.Orders.GetOrdersWithDate;
 using Infrastructure.Controllers;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -31,6 +32,15 @@ public class OrderController : ControllerBase
     public async Task<ActionResult> Get(Guid id)
     {
         var result = await _mediator.Send(new GetOrderQuery { Id = id.ToString() });
+        return result.ToHttpResponse();
+    }
+
+    [ApiConventionMethod(typeof(ApiConventions), nameof(ApiConventions.List))]
+    [HttpGet("list/{startDate:int}/{endDate:int}", Name = "GetOrdersWithDate")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<GetOrdersWithDateQueryResponse>))]
+    public async Task<ActionResult> GetOrdersWithDate(long startDate, long endDate)
+    {
+        var result = await _mediator.Send(new GetOrdersWithDateQuery { StartDate = startDate, EndDate = endDate });
         return result.ToHttpResponse();
     }
 }

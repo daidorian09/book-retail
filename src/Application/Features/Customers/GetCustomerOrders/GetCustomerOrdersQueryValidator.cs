@@ -2,9 +2,9 @@
 
 namespace Application.Features.Customers.GetCustomerOrders;
 
-public class GetCustomerOrdersValidator : AbstractValidator<GetCustomerOrdersQuery>
+public class GetCustomerOrdersQueryValidator : AbstractValidator<GetCustomerOrdersQuery>
 {
-    public GetCustomerOrdersValidator()
+    public GetCustomerOrdersQueryValidator()
     {
         RuleFor(p => p.PageNumber)
             .GreaterThan(AppConstants.MinPageNumber)

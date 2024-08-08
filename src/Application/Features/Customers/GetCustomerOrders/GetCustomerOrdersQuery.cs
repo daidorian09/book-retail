@@ -1,5 +1,4 @@
 ﻿using Application.Constants;
-using Application.Exceptions;
 using Application.Models;
 using Application.Persistence;
 using CleanArchitecture.Application.Features.Products.GetPagedProducts;
@@ -15,11 +14,11 @@ namespace Application.Features.Customers.GetCustomerOrders
 
     }
 
-    public class GetCustomerOrdersCommandHandler : IRequestHandler<GetCustomerOrdersQuery, Result<PaginatedList<GetCustomerOrdersQueryResponse>>>
+    public class GetCustomerOrdersQueryHandler : IRequestHandler<GetCustomerOrdersQuery, Result<PaginatedList<GetCustomerOrdersQueryResponse>>>
     {
         private readonly IRepository<Order> _orderRepository;
 
-        public GetCustomerOrdersCommandHandler(IRepository<Order> orderRepository)
+        public GetCustomerOrdersQueryHandler(IRepository<Order> orderRepository)
         {
             _orderRepository = orderRepository;
         }
@@ -31,7 +30,7 @@ namespace Application.Features.Customers.GetCustomerOrders
 
             if(!paginatedOrders.Any())
             {
-                throw new NotFoundException();
+                return new PaginatedList<GetCustomerOrdersQueryResponse>(new(), default, default, default);
             }
 
             var orders = paginatedOrders

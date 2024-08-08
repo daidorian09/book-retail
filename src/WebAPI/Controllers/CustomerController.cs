@@ -30,9 +30,9 @@ public class CustomerController : ControllerBase
     }
 
     [ApiConventionMethod(typeof(ApiConventions), nameof(ApiConventions.List))]
-    [HttpGet("paginated/{pageNumber:int}/{pageSize:int}", Name = "GetCustomerOrdersWithPagination")]
+    [HttpGet("list/{pageNumber:int}/{pageSize:int}", Name = "GetCustomerOrdersWithPagination")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PaginatedList<GetCustomerOrdersQueryResponse>))]
-    public async Task<ActionResult> GetPagedProducts(int pageNumber, int pageSize)
+    public async Task<ActionResult> GetPaginatedCustomerOrders(int pageNumber, int pageSize)
     {
         var result = await _mediator.Send(new GetCustomerOrdersQuery { PageNumber = pageNumber, PageSize = pageSize });
         return result.ToHttpResponse();

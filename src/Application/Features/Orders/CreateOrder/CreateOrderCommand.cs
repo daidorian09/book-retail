@@ -32,6 +32,8 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Res
 
         await Task.WhenAll(updateTasks);
 
+        long UtcNowUnixTimeSeconds = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+
         var order = new Order
         {
             Id = Guid.NewGuid(),
@@ -41,7 +43,8 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Res
             OrderStatus = Enum.Parse<OrderStatus>(request.OrderStatus),
             Customer = request.Customer,
             Items = request.Items,
-            CreatedDate = DateTimeOffset.UtcNow.ToUnixTimeSeconds()
+            CreatedDate = UtcNowUnixTimeSeconds,
+            OrderDate = UtcNowUnixTimeSeconds
         };
 
         await _orderRepository.CreateAsync(AppConstants.OrderBucket, order.Id.ToString(), order);

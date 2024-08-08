@@ -92,5 +92,14 @@ namespace Persistence.Repository
 
             return (result.ContentAs<T>(), result.Cas);
         }
+
+        public async Task<List<dynamic>> GetWithDateAsync(string bucketName, string fieldName, long startDate, long endDate)
+        {
+            var query = $"SELECT * FROM `{bucketName}` WHERE {fieldName} BETWEEN {startDate} AND {endDate}";
+
+            var queryResult = await _cluster.QueryAsync<dynamic>(query);
+
+            return await queryResult.Rows.ToListAsync();
+        }
     }
 }
