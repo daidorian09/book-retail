@@ -1,7 +1,9 @@
 ﻿using Application.Constants;
+using Application.Exceptions;
 using Application.Persistence;
 using Domain.Entities;
 using Domain.Enums;
+using Application.Exceptions;
 
 namespace Application.Features.Orders.CreateOrder;
 
@@ -59,9 +61,9 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Res
             // Optimistic lock approach with CAS value
             var (book, cas) = await _bookRepository.GetByIdWithCasAsync(AppConstants.BookBucket, item.Id);
 
-            if (IsBookNotOutOfStock(item, book))
+            if (IsBookValidForPartialUpdate(item, book))
             {
-                throw new Exceptions.NotFoundException($"{AppConstants.BookRecordNotFound} : {book?.Id}");
+                throw new NotFoundException($"{AppConstants.BookRecordNotFound} : {book?.Id}");
             }
 
             var fieldsToUpdate = ExtractFieldsToUpdate(item, book);
@@ -70,13 +72,13 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Res
 
             if (!isBookUpdated)
             {
-                throw new Exceptions.BookRetailCaseStudyException();
+                throw new BookRetailCaseStudyException();
             }
         });
 
         return updateTasks;
     }
-    private static bool IsBookNotOutOfStock(BookMetaData item, Book? book)
+    private static bool IsBookValidForPartialUpdate(BookMetaData item, Book? book)
     {
         return book is null || book.Quantity < item.Quantity || book.OutOfStock;
     }

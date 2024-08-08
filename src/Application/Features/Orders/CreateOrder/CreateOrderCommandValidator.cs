@@ -1,7 +1,6 @@
 ﻿using Application.Constants;
-using Application.Features.Orders.CreateOrder;
 
-namespace Application.Features.Books.CreateBook;
+namespace Application.Features.Orders.CreateOrder;
 
 public class CreateOrderCommandValidator : AbstractValidator<CreateOrderCommand>
 {

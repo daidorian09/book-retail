@@ -79,7 +79,7 @@ namespace Tests.Application.Features.Books.CreateBook
                 await _sut.Handle(command, CancellationToken.None);
             });
 
-            exception.Message.ShouldBe(AppConstants.BookRecordNotFound);
+             exception.Message.ShouldBe(AppConstants.BookRecordNotFound);
             _bookRepository.Verify(c => c.GetByIdWithCasAsync(AppConstants.BookBucket, command.Id), Times.Once);
             _bookRepository.Verify(c => c.PartialUpdateAsync(AppConstants.BookBucket, command.Id, It.IsAny<Dictionary<string, object>>(), cas), Times.Never);
         }
