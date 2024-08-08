@@ -1,4 +1,5 @@
 ﻿using Application.Constants;
+using Application.Exceptions;
 using Application.Persistence;
 using Domain.Entities;
 using Domain.Enums;
@@ -26,7 +27,7 @@ public class UpdateBookStockCommandHandler : IRequestHandler<UpdateBookStockComm
 
         if (book is null)
         {
-            throw new Exceptions.NotFoundException(AppConstants.BookRecordNotFound);
+            throw new NotFoundException(AppConstants.BookRecordNotFound);
         }
 
         var fieldsToUpdate = ExtractFieldsToUpdate(request, book);
