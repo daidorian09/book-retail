@@ -101,5 +101,41 @@ namespace Persistence.Repository
 
             return await queryResult.Rows.ToListAsync();
         }
+
+        public async Task<List<dynamic>> GetMonthlyStatisticsAsync(string bucketName, int year)
+        {
+            var query = $@"
+                         WITH filteredOrders AS (
+                         SELECT TOSTRING(DATE_PART_STR(DATE_ADD_STR('1970-01-01T00:00:00Z', orderDate * 1000, 'millisecond'), 'month')) AS month,
+                         ARRAY_LENGTH(items) AS purchasedBookCount,
+                         total AS totalAmount
+                         FROM `{bucketName}`
+                         WHERE orderDate IS NOT NULL AND DATE_PART_STR(DATE_ADD_STR('1970-01-01T00:00:00Z', orderDate * 1000, 'millisecond'), 'year') = {year}
+                        )
+                        SELECT CASE month
+                        WHEN '1' THEN 'January'
+                        WHEN '2' THEN 'February'
+                        WHEN '3' THEN 'March'
+                        WHEN '4' THEN 'April'
+                        WHEN '5' THEN 'May'
+                        WHEN '06' THEN 'June'
+                        WHEN '7' THEN 'July'
+                        WHEN '8' THEN 'August'
+                        WHEN '9' THEN 'September'
+                        WHEN '10' THEN 'October'
+                        WHEN '11' THEN 'November'
+                        WHEN '12' THEN 'December'
+                        ELSE 'Unknown'
+                        END AS month,
+                        SUM(totalAmount) AS monthlySum,
+                        SUM(purchasedBookCount) AS totalPurchasedBooks,
+                        COUNT(*) AS totalOrderCount
+                        FROM filteredOrders
+                        GROUP BY month;";
+
+            var queryResult = await _cluster.QueryAsync<dynamic>(query);
+
+            return await queryResult.Rows.ToListAsync();
+        }
     }
 }

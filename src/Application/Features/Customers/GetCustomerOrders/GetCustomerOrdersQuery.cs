@@ -27,7 +27,6 @@ namespace Application.Features.Customers.GetCustomerOrders
         {
             var paginatedOrders = await _orderRepository.GetWithPagination(AppConstants.OrderBucket, AppConstants.CustomerIdField, "02b4aeac-81fb-4e55-8070-faed6ae94597", request.PageNumber, request.PageSize);
 
-
             if(!paginatedOrders.Any())
             {
                 return new PaginatedList<GetCustomerOrdersQueryResponse>(new(), default, default, default);

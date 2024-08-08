@@ -15,6 +15,7 @@ namespace Application.Constants
         public const decimal MinPrice = 0;
         public const int MinStartDate = 0;
         public const int MinEndDate = 0;
+        public const int MinYear = 0;
 
         public const string IsbnRegex = @"^(?=(?:[^0-9]*[0-9]){10}(?:(?:[^0-9]*[0-9]){3})?$)[\d-]+$";
         public const string InvalidIsbnMessage = "Invalid ISBN format.";
