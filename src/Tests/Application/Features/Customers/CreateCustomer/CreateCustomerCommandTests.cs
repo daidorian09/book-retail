@@ -36,7 +36,7 @@ public class CreateCustomerCommandTests
 
 
         _customerRepository.Setup(c => c.ExistsAsync(AppConstants.CustomerBucket, AppConstants.EmailField, command.Email)).ReturnsAsync(false).Verifiable();
-        _customerRepository.Setup(c => c.CreateAsync(AppConstants.CustomerBucket, It.IsAny<string>(), It.IsAny<Customer>())).ReturnsAsync(It.IsAny<string>).Verifiable();
+        _customerRepository.Setup(c => c.CreateAsync(AppConstants.CustomerBucket, It.IsAny<string>(), It.IsAny<Customer>())).ReturnsAsync(It.IsAny<bool>).Verifiable();
 
         var result = await _sut.Handle(command, CancellationToken.None);
 

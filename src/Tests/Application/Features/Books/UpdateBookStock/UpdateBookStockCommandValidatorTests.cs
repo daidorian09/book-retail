@@ -1,5 +1,4 @@
-﻿using Application.Features.Books.CreateBook;
-using Application.Features.Books.UpdateBookStock;
+﻿using Application.Features.Books.UpdateBookStock;
 using FluentValidation;
 using Tests.Application.Common;
 
@@ -8,7 +7,7 @@ namespace Tests.Application.Features.Books.UpdateBookStock
     public class UpdateBookStockCommandValidatorTests : ValidatorTestBase<UpdateBookStockCommand>
     {
         [Fact]
-        public void Quantity_CannotLessThan0()
+        public void Quantity_CannotBeLessThan0()
         {
             Action<UpdateBookStockCommand> mutation = x => x.Quantity = -1;
 

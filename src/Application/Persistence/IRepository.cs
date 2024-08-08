@@ -2,7 +2,7 @@
 
 public interface IRepository<T>
 {
-    Task<string> CreateAsync(string bucketName, string id, T item);
+    Task<bool> CreateAsync(string bucketName, string id, T item);
     Task<T> GetByIdAsync(string bucketName, string id);
     Task<(T, ulong cas)> GetByIdWithCasAsync(string bucketName, string id);
     Task<bool> ExistsAsync(string bucketName, string fieldName, string value);

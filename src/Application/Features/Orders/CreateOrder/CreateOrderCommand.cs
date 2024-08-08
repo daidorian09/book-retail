@@ -28,10 +28,6 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Res
 
     public async Task<Result<CreateOrderCommandResponse>> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
     {
-        var updateTasks = GetBookUpdateTasks(request);
-
-        await Task.WhenAll(updateTasks);
-
         long UtcNowUnixTimeSeconds = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
 
         var order = new Order
@@ -48,6 +44,10 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Res
         };
 
         await _orderRepository.CreateAsync(AppConstants.OrderBucket, order.Id.ToString(), order);
+
+        var updateTasks = GetBookUpdateTasks(request);
+
+        await Task.WhenAll(updateTasks);
 
         return Result.Ok(new CreateOrderCommandResponse { Id = order.Id });
     }

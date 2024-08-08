@@ -1,7 +1,6 @@
 ﻿using Application.Constants;
-using Application.Features.Books.UpdateBookStock;
 
-namespace Application.Features.Books.CreateBook;
+namespace Application.Features.Books.UpdateBookStock;
 
 public class UpdateBookStockCommandValidator : AbstractValidator<UpdateBookStockCommand>
 {
@@ -10,5 +9,5 @@ public class UpdateBookStockCommandValidator : AbstractValidator<UpdateBookStock
         RuleFor(p => p.Quantity)
            .GreaterThan(AppConstants.InvalidQuantity)
            .WithMessage(AppConstants.InvalidQuantityMessage);
-    }   
+    }
 }

@@ -35,7 +35,7 @@ namespace Tests.Application.Features.Books.CreateBook
                 Title = "test"
             };
 
-            _bookRepository.Setup(c => c.CreateAsync(AppConstants.BookBucket, It.IsAny<string>(), It.IsAny<Book>())).ReturnsAsync(It.IsAny<string>).Verifiable();
+            _bookRepository.Setup(c => c.CreateAsync(AppConstants.BookBucket, It.IsAny<string>(), It.IsAny<Book>())).ReturnsAsync(It.IsAny<bool>).Verifiable();
 
             var result = await _sut.Handle(command, CancellationToken.None);
 

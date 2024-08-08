@@ -59,7 +59,7 @@ namespace Tests.Application.Features.Books.CreateBook
         [InlineData("ISBN446877428FCI")]
         [InlineData("I_SB%^N_/(")]
         [InlineData("978-1-12345-909-4 2")]
-        public void Isbn_CannotInvalidFormat(string isbn)
+        public void Isbn_CannotBeInvalidFormat(string isbn)
         {
             Action<CreateBookCommand> mutation = x => x.ISBN = isbn;
 
@@ -92,7 +92,7 @@ namespace Tests.Application.Features.Books.CreateBook
         }
 
         [Fact]
-        public void Price_CannotLessThan0()
+        public void Price_CannotBeLessThan0()
         {
             Action<CreateBookCommand> mutation = x => x.Price = -1;
 
@@ -102,7 +102,7 @@ namespace Tests.Application.Features.Books.CreateBook
         }
 
         [Fact]
-        public void Quantity_CannotLessThan0()
+        public void Quantity_CannotBeLessThan0()
         {
             Action<CreateBookCommand> mutation = x => x.Quantity = -1;
 

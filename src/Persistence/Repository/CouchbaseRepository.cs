@@ -21,7 +21,7 @@ namespace Persistence.Repository
             return await _cluster.BucketAsync(bucketName);
         }
 
-        public async Task<string> CreateAsync(string bucketName, string id, T item)
+        public async Task<bool> CreateAsync(string bucketName, string id, T item)
         {
             try
             {
@@ -30,7 +30,7 @@ namespace Persistence.Repository
                 var collection = bucket.DefaultCollection();
                 var result = await collection.UpsertAsync(id, item);
 
-                return result.MutationToken.BucketRef;
+                return true;
                             }
             catch (Exception ex)
             {

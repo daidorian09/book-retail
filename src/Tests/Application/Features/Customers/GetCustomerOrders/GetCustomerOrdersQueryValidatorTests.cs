@@ -7,7 +7,7 @@ namespace Tests.Application.Features.Customers.GetCustomerOrders
     public class GetCustomerOrdersQueryValidatorTests : ValidatorTestBase<GetCustomerOrdersQuery>
     {
         [Fact]
-        public void PageSize_CannotLessThan0()
+        public void PageSize_CannotBeLessThan0()
         {
             Action<GetCustomerOrdersQuery> mutation = x => x.PageSize = -1;
 
@@ -27,7 +27,7 @@ namespace Tests.Application.Features.Customers.GetCustomerOrders
         }
 
         [Fact]
-        public void PageNumber_CannotLessThan0()
+        public void PageNumber_CannotBeLessThan0()
         {
             Action<GetCustomerOrdersQuery> mutation = x => x.PageNumber = -1;
 
