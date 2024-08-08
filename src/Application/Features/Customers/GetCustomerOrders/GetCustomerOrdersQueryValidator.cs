@@ -11,5 +11,10 @@ public class GetCustomerOrdersQueryValidator : AbstractValidator<GetCustomerOrde
             .LessThan(AppConstants.MaxPageNumber)
             .WithMessage(AppConstants.InvalidPageNumberMessage);
 
+        RuleFor(p => p.PageSize)
+           .GreaterThan(AppConstants.MinPageSize)
+           .LessThan(AppConstants.MaxPageSize)
+           .WithMessage(AppConstants.InvalidPageSizeMessage);
+
     }
 }

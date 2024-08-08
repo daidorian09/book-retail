@@ -79,7 +79,7 @@ namespace Persistence.Repository
             
         }
 
-        public async Task<List<dynamic>> GetWithPagination(string bucketName, string fieldName, string value, int pageNumber, int pageSize)
+        public async Task<List<dynamic>> GetWithPaginationAsync(string bucketName, string fieldName, string value, int pageNumber, int pageSize)
         {
             var offset = (pageNumber - 1) * pageSize;
             var query = $"SELECT * FROM `{bucketName}` WHERE {fieldName} = \"{value}\"  LIMIT {pageSize} OFFSET {offset}";

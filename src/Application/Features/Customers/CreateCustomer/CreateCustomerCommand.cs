@@ -1,4 +1,5 @@
 ﻿using Application.Constants;
+using Application.Exceptions;
 using Application.Persistence;
 using Domain.Entities;
 
@@ -27,7 +28,7 @@ public class CreateCustomerCommandHandler : IRequestHandler<CreateCustomerComman
 
         if(existsResult)
         {
-            throw new Exceptions.CustomerExistsException(AppConstants.CustomerExists);
+            throw new CustomerExistsException(AppConstants.CustomerExists);
         }
 
         var customer = new Customer
@@ -40,7 +41,7 @@ public class CreateCustomerCommandHandler : IRequestHandler<CreateCustomerComman
             CreatedDate = (long)DateTime.UtcNow.Subtract(DateTime.UnixEpoch).TotalSeconds
         };
 
-        await _customerRepository.CreateAsync("customer", customer.Id.ToString(), customer);
+        await _customerRepository.CreateAsync(AppConstants.CustomerBucket, customer.Id.ToString(), customer);
 
         return Result.Ok(new CreateCustomerCommandResponse { Id = customer.Id });
     }

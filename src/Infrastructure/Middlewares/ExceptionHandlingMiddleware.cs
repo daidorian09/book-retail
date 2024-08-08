@@ -67,7 +67,7 @@ public class ExceptionHandlingMiddleware
         await context.Response.WriteAsync(result);
     }
 
-    private ProblemDetails CreateProblemDetails(Exception exception, HttpStatusCode statusCode, string title)
+    private static ProblemDetails CreateProblemDetails(Exception exception, HttpStatusCode statusCode, string title)
     {
         return new ProblemDetails
         {
@@ -77,7 +77,7 @@ public class ExceptionHandlingMiddleware
         };
     }
 
-    private ProblemDetails CreateValidationProblemDetails(ValidationException ex)
+    private static ProblemDetails CreateValidationProblemDetails(ValidationException ex)
     {
         var problemDetails = new ValidationProblemDetails(ex.Errors)
         {
