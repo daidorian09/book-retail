@@ -15,6 +15,7 @@ public class CreateBookCommandValidator : AbstractValidator<CreateBookCommand>
             .MaximumLength(AppConstants.MaxTextLength);
 
         RuleFor(p => p.ISBN)
+            .NotEmpty()
             .Matches(AppConstants.IsbnRegex)
             .WithMessage(AppConstants.InvalidIsbnMessage);
 
