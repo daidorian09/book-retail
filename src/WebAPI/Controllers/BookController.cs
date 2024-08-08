@@ -2,6 +2,7 @@
 using Application.Features.Books.UpdateBookStock;
 using Infrastructure.Controllers;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebAPI.Extensions;
 
@@ -21,6 +22,7 @@ public class BookController : ControllerBase
 
     [ApiConventionMethod(typeof(ApiConventions), nameof(ApiConventions.Create))]
     [HttpPost(Name = "CreateBook")]
+    [Authorize(Roles = "Customer")]
     public async Task<ActionResult> Create(CreateBookCommand command)
     {
         var result = await _mediator.Send(command);
@@ -29,6 +31,7 @@ public class BookController : ControllerBase
 
     [ApiConventionMethod(typeof(ApiConventions), nameof(ApiConventions.Update))]
     [HttpPatch(Name = "UpdateBookStock")]
+    [Authorize(Roles = "Customer")]
     public async Task<ActionResult> Update(UpdateBookStockCommand command)
     {
         var result = await _mediator.Send(command);

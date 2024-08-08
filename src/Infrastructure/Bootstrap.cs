@@ -1,4 +1,6 @@
-﻿namespace Infrastructure;
+﻿using Infrastructure.Authorization;
+
+namespace Infrastructure;
 
 public static class Bootstrap
 {
@@ -7,9 +9,9 @@ public static class Bootstrap
         services.AddSwaggerDocument();
 
         // This is a fake authentication. Remove this on real scenario after implemention own authentication
-        /* services.AddAuthentication(FakeAuthHandler.AuthenticationScheme)
+         services.AddAuthentication(FakeAuthHandler.AuthenticationScheme)
                .AddScheme<FakeAuthHandlerOptions, FakeAuthHandler>(FakeAuthHandler.AuthenticationScheme, options => {
-               });*/
+               });
 
         return services;
     }

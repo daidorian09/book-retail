@@ -2,6 +2,7 @@
 using Application.Features.Orders.GetOrdersWithDate;
 using Infrastructure.Controllers;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebAPI.Extensions;
 
@@ -21,6 +22,7 @@ public class OrderController : ControllerBase
 
     [ApiConventionMethod(typeof(ApiConventions), nameof(ApiConventions.Create))]
     [HttpPost(Name = "CreateOrder")]
+    [Authorize(Roles = "Customer")]
     public async Task<ActionResult> Create(CreateOrderCommand command)
     {
         var result = await _mediator.Send(command);
@@ -29,6 +31,7 @@ public class OrderController : ControllerBase
 
     [ApiConventionMethod(typeof(ApiConventions), nameof(ApiConventions.Get))]
     [HttpGet("{id:Guid}", Name = "GetOrder")]
+    [Authorize(Roles = "Customer")]
     public async Task<ActionResult> Get(Guid id)
     {
         var result = await _mediator.Send(new GetOrderQuery { Id = id.ToString() });
@@ -38,6 +41,7 @@ public class OrderController : ControllerBase
     [ApiConventionMethod(typeof(ApiConventions), nameof(ApiConventions.List))]
     [HttpGet("list/{startDate:int}/{endDate:int}", Name = "GetOrdersWithDate")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<GetOrdersWithDateQueryResponse>))]
+    [Authorize(Roles = "Customer")]
     public async Task<ActionResult> GetOrdersWithDate(long startDate, long endDate)
     {
         var result = await _mediator.Send(new GetOrdersWithDateQuery { StartDate = startDate, EndDate = endDate });

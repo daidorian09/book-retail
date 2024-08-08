@@ -1,7 +1,7 @@
-﻿using Application.Features.Orders.GetOrdersWithDate;
-using Application.Features.Statistics.GetMonthlyStatistics;
+﻿using Application.Features.Statistics.GetMonthlyStatistics;
 using Infrastructure.Controllers;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebAPI.Extensions;
 
@@ -22,6 +22,7 @@ public class StatisticsController : ControllerBase
     [ApiConventionMethod(typeof(ApiConventions), nameof(ApiConventions.List))]
     [HttpGet("monthly-statistics/{year:int}", Name = "GetMonthlyStatistics")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<GetMonthlyStatisticsQueryResponse>))]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult> GetMonthlyStatistics(int year)
     {
         var result = await _mediator.Send(new GetMonthlyStatisticsQuery { Year = year });

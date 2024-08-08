@@ -1,4 +1,6 @@
-﻿using Domain.Enums;
+﻿using Application.Exceptions;
+using Domain.Enums;
+using System.Net;
 
 namespace Application.Constants
 {
@@ -30,6 +32,7 @@ namespace Application.Constants
         public const string ContentType = "application/json";
         public const string ApplicationError = "Application Error";
         public const string NotFound = "Not Found";
+        public const string Conflict = "Conflict";
         public const string InvalidParams = "invalidParams";
         public const string ValidationError = "Validation Error";
         public const string ServerError = "Server Error";
@@ -37,10 +40,19 @@ namespace Application.Constants
         public const string CustomerExists = "Customer is registered";
         public const string BookRecordNotFound = "Book record is not found";
         public const string OrderRecordNotFound = "Order record is not found";
+        public const string AuthneticationError = "Authentication Error";
+        public const string AuthneticationErrorMessage = "Access denied. You do not have permission to access this resource.";
 
         public static readonly HashSet<BookStatus> AllowedBookStatuses = new()
         {
             BookStatus.Created,
+        };
+
+        public static readonly Dictionary<Type, (HttpStatusCode StatusCode, string Title)> ExceptionToStatusCode = new()
+        {
+             { typeof(ApplicationException), (HttpStatusCode.InternalServerError, ApplicationError) },
+             { typeof(NotFoundException), (HttpStatusCode.NotFound, NotFound) },
+             { typeof(CustomerExistsException), (HttpStatusCode.Conflict, Conflict) }
         };
 
         public const string OrderBucket = "order";
