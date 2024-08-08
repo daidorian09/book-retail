@@ -1,6 +1,4 @@
 ﻿using Application.Constants;
-using Application.Exceptions;
-using Application.Features.Orders.CreateOrder;
 using Application.Features.Orders.GetOrdersWithDate;
 using Application.Persistence;
 using AutoFixture;

@@ -1,12 +1,12 @@
-﻿using Application.Persistence;
-using AutoFixture.AutoMoq;
+﻿using Application.Constants;
+using Application.Exceptions;
+using Application.Features.Books.UpdateBookStock;
+using Application.Persistence;
 using AutoFixture;
+using AutoFixture.AutoMoq;
 using Domain.Entities;
 using Moq;
-using Application.Constants;
 using Shouldly;
-using Application.Features.Books.UpdateBookStock;
-using Application.Exceptions;
 
 namespace Tests.Application.Features.Books.CreateBook
 {
@@ -79,7 +79,7 @@ namespace Tests.Application.Features.Books.CreateBook
                 await _sut.Handle(command, CancellationToken.None);
             });
 
-             exception.Message.ShouldBe(AppConstants.BookRecordNotFound);
+            exception.Message.ShouldBe(AppConstants.BookRecordNotFound);
             _bookRepository.Verify(c => c.GetByIdWithCasAsync(AppConstants.BookBucket, command.Id), Times.Once);
             _bookRepository.Verify(c => c.PartialUpdateAsync(AppConstants.BookBucket, command.Id, It.IsAny<Dictionary<string, object>>(), cas), Times.Never);
         }

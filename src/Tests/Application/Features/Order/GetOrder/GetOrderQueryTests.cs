@@ -39,7 +39,7 @@ namespace Tests.Application.Features.Order.GetOrder
                 PaymentMethod = Domain.Enums.PaymentMethod.Cash
             };
 
-            _orderRepository.Setup(c => c.GetByIdAsync(AppConstants.OrderBucket,command.Id))
+            _orderRepository.Setup(c => c.GetByIdAsync(AppConstants.OrderBucket, command.Id))
                 .ReturnsAsync(order)
                 .Verifiable();
 

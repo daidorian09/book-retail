@@ -1,10 +1,10 @@
-﻿using Application.Persistence;
-using AutoFixture.AutoMoq;
+﻿using Application.Constants;
+using Application.Features.Books.CreateBook;
+using Application.Persistence;
 using AutoFixture;
+using AutoFixture.AutoMoq;
 using Domain.Entities;
 using Moq;
-using Application.Features.Books.CreateBook;
-using Application.Constants;
 using Shouldly;
 
 namespace Tests.Application.Features.Books.CreateBook

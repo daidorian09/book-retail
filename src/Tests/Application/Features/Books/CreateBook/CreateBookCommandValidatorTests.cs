@@ -1,5 +1,4 @@
 ﻿using Application.Features.Books.CreateBook;
-using Application.Features.Customers.CreateCustomer;
 using FluentValidation;
 using Tests.Application.Common;
 

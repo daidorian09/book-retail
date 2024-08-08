@@ -1,6 +1,5 @@
 ﻿using Application.Constants;
 using Application.Exceptions;
-using Application.Features.Customers.CreateCustomer;
 using Application.Features.Orders.CreateOrder;
 using Application.Persistence;
 using AutoFixture;
@@ -17,7 +16,7 @@ public class CreateOrderCommandTests
     private readonly IFixture _fixture;
     private readonly CreateOrderCommandHandler _sut;
     private readonly Mock<IRepository<Domain.Entities.Order>> _orderRepository;
-    private readonly Mock<IRepository<Book>>  _bookRepository;
+    private readonly Mock<IRepository<Book>> _bookRepository;
 
     public CreateOrderCommandTests()
     {
@@ -46,7 +45,7 @@ public class CreateOrderCommandTests
 
         var command = new CreateOrderCommand
         {
-            Customer = new (customerId.ToString(), "test", "test"),
+            Customer = new(customerId.ToString(), "test", "test"),
             Items = new List<BookMetaData>() { new(book.Id.ToString(), book.Author, book.Title, book.Price, 1, book.BookStatus) },
             OrderStatus = OrderStatus.Created.ToString(),
             PaymentMethod = PaymentMethod.CreditCard.ToString(),

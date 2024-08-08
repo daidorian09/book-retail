@@ -1,5 +1,5 @@
-﻿using FluentValidation.TestHelper;
-using FluentValidation;
+﻿using FluentValidation;
+using FluentValidation.TestHelper;
 
 namespace Tests.Application.Common;
 

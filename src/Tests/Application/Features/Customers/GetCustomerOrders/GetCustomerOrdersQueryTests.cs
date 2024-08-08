@@ -25,7 +25,7 @@ public class GetCustomerOrdersQueryTests
     [Fact]
     public async Task GetCustomerOrders_ReturnsEmptyPaginatedList()
     {
-        var command = new GetCustomerOrdersQuery
+        var query = new GetCustomerOrdersQuery
         {
             PageNumber = 1,
             PageSize = 1
@@ -34,12 +34,12 @@ public class GetCustomerOrdersQueryTests
         _orderRepository.Setup(c => c.GetWithPaginationAsync(AppConstants.OrderBucket,
             AppConstants.EmailField,
             It.IsAny<string>(),
-            command.PageNumber,
-            command.PageSize))
+            query.PageNumber,
+            query.PageSize))
            .ReturnsAsync(It.IsAny<List<dynamic>>())
            .Verifiable();
 
-        var result = await _sut.Handle(command, CancellationToken.None);
+        var result = await _sut.Handle(query, CancellationToken.None);
 
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
@@ -49,7 +49,7 @@ public class GetCustomerOrdersQueryTests
     [Fact]
     public async Task GetCustomerOrders_ReturnsPaginatedList()
     {
-        var command = new GetCustomerOrdersQuery
+        var query = new GetCustomerOrdersQuery
         {
             PageNumber = 1,
             PageSize = 1
@@ -97,18 +97,18 @@ public class GetCustomerOrdersQueryTests
         var dynamicOrders = new List<dynamic>
         {
             orderAsJObject
-        };        
+        };
 
         _orderRepository
             .Setup(repo => repo.GetWithPaginationAsync(
                 AppConstants.OrderBucket,
                 AppConstants.CustomerIdField,
                 It.IsAny<string>(),
-                command.PageNumber,
-                command.PageSize))
+                query.PageNumber,
+                query.PageSize))
             .ReturnsAsync(dynamicOrders);
 
-        var result = await _sut.Handle(command, CancellationToken.None);
+        var result = await _sut.Handle(query, CancellationToken.None);
 
         result.ShouldNotBeNull();
         result.IsSuccess.ShouldBeTrue();
