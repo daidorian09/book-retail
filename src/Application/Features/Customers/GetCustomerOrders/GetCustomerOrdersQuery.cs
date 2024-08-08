@@ -1,4 +1,5 @@
 ﻿using Application.Constants;
+using Application.Extensions;
 using Application.Models;
 using Application.Persistence;
 using CleanArchitecture.Application.Features.Products.GetPagedProducts;
@@ -27,7 +28,7 @@ namespace Application.Features.Customers.GetCustomerOrders
         {
             var paginatedOrders = await _orderRepository.GetWithPagination(AppConstants.OrderBucket, AppConstants.CustomerIdField, "02b4aeac-81fb-4e55-8070-faed6ae94597", request.PageNumber, request.PageSize);
 
-            if(!paginatedOrders.Any())
+            if(!paginatedOrders.NotNullOrEmpty())
             {
                 return new PaginatedList<GetCustomerOrdersQueryResponse>(new(), default, default, default);
             }

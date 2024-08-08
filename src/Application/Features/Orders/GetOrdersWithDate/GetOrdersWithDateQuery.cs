@@ -1,4 +1,5 @@
 ﻿using Application.Constants;
+using Application.Extensions;
 using Application.Persistence;
 using Domain.Entities;
 using Newtonsoft.Json.Linq;
@@ -25,7 +26,7 @@ namespace Application.Features.Orders.GetOrdersWithDate
         {
             var filteredOrders = await _orderRepository.GetWithDateAsync(AppConstants.OrderBucket, AppConstants.OrderDateField, request.StartDate, request.EndDate);
 
-            if (!filteredOrders.Any())
+            if (!filteredOrders.NotNullOrEmpty())
             {
                 return new List<GetOrdersWithDateQueryResponse>();
             }

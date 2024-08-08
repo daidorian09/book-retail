@@ -1,16 +1,19 @@
 ﻿using Application.Persistence;
 using Couchbase;
 using Couchbase.KeyValue;
+using Microsoft.Extensions.Logging;
 
 namespace Persistence.Repository
 {
     public class CouchbaseRepository<T> : IRepository<T>
     {
         private readonly ICluster _cluster;
+        private readonly ILogger<CouchbaseRepository<T>> _logger;
 
-        public CouchbaseRepository(ICluster cluster)
+        public CouchbaseRepository(ICluster cluster, ILogger<CouchbaseRepository<T>> logger)
         {
             _cluster = cluster;
+            _logger = logger;
         }
 
         private async Task<IBucket> GetBucketAsync(string bucketName)
@@ -20,24 +23,36 @@ namespace Persistence.Repository
 
         public async Task<string> CreateAsync(string bucketName, string id, T item)
         {
-            var bucket = await GetBucketAsync(bucketName);
-            var collection = bucket.DefaultCollection();
-            var result = await collection.UpsertAsync(id, item);
+            try
+            {
+                _logger.LogInformation("Document : {id} will be inserted into {bucket}", id, bucketName);
+                var bucket = await GetBucketAsync(bucketName);
+                var collection = bucket.DefaultCollection();
+                var result = await collection.UpsertAsync(id, item);
 
-            return result.MutationToken.BucketRef;
+                return result.MutationToken.BucketRef;
+                            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception occurred during inserting the document, Id :{id} - Bucket : {bucket}", id, bucketName);
+                return default;
+            }
+
         }
 
         public async Task<T> GetByIdAsync(string bucketName, string id)
         {
             try
             {
+                _logger.LogInformation("Document :{id} will be fetched from {bucket}",id, bucketName);
                 var bucket = await GetBucketAsync(bucketName);
                 var collection = bucket.DefaultCollection();
                 var result = await collection.GetAsync(id);
                 return result.ContentAs<T>();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                _logger.LogError(ex,"Exception occurred during getting the document, Id :{id} - Bucket : {bucket}", id, bucketName);
                 return default;
             }
             
@@ -46,27 +61,50 @@ namespace Persistence.Repository
         public async Task<bool> ExistsAsync(string bucketName, string fieldName, string value)
         {
             var query = $"SELECT COUNT(*) AS count FROM `{bucketName}` WHERE `{fieldName}` = \"{value}\";";
-            var result = await _cluster.QueryAsync<dynamic>(query);
-            var row = await result.Rows.FirstOrDefaultAsync();
+            try
+            {
+                _logger.LogInformation("Executing query: {Query}", query);
 
-            var count = row?.count ?? 0;
-            return count > 0;
+                var result = await _cluster.QueryAsync<dynamic>(query);
+                var row = await result.Rows.FirstOrDefaultAsync();
+
+                var count = row?.count ?? 0;
+                return count > 0;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Query execution failed : {Query}", query);
+                return default;
+            }
+            
         }
 
         public async Task<List<dynamic>> GetWithPagination(string bucketName, string fieldName, string value, int pageNumber, int pageSize)
         {
             var offset = (pageNumber - 1) * pageSize;
             var query = $"SELECT * FROM `{bucketName}` WHERE {fieldName} = \"{value}\"  LIMIT {pageSize} OFFSET {offset}";
+            try
+            {
+                _logger.LogInformation("Executing query: {Query}", query);
 
-            var queryResult = await _cluster.QueryAsync<dynamic>(query);
+                var queryResult = await _cluster.QueryAsync<dynamic>(query);
 
-            return await queryResult.Rows.ToListAsync();
+                return await queryResult.Rows.ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Query execution failed : {Query}", query);
+                return default;
+            }
+           
         }
 
         public async Task<bool> PartialUpdateAsync(string bucketName, string id, Dictionary<string, object> fieldsToUpdate, ulong cas)
         {
             try
             {
+                _logger.LogInformation("Document :{id} will be partially updated for {bucket}, fields {}", id, bucketName, fieldsToUpdate);
+
                 var bucket = await GetBucketAsync(bucketName);
                 var collection = bucket.DefaultCollection();
 
@@ -78,28 +116,53 @@ namespace Persistence.Repository
 
                 return result.Cas != 0;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                _logger.LogError(ex, "Exception occurred during partial updating the document, Id :{id} - Bucket : {bucket}", id, bucketName);
                 return default;
             }            
         }
 
         public async Task<(T, ulong cas)> GetByIdWithCasAsync(string bucketName, string id)
         {
-            var bucket = await GetBucketAsync(bucketName);
-            var collection = bucket.DefaultCollection();
-            var result = await collection.GetAsync(id);
+            try
+            {
+                _logger.LogInformation("Document :{id} will be fetched with cas value for {bucket}", id, bucketName);
 
-            return (result.ContentAs<T>(), result.Cas);
+                var bucket = await GetBucketAsync(bucketName);
+                var collection = bucket.DefaultCollection();
+                var result = await collection.GetAsync(id);
+
+                return (result.ContentAs<T>(), result.Cas);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Exception occurred during getting the document with case, Id :{id} - Bucket : {bucket}", id, bucketName);
+                return default;
+            }
+            
         }
 
         public async Task<List<dynamic>> GetWithDateAsync(string bucketName, string fieldName, long startDate, long endDate)
         {
             var query = $"SELECT * FROM `{bucketName}` WHERE {fieldName} BETWEEN {startDate} AND {endDate}";
 
-            var queryResult = await _cluster.QueryAsync<dynamic>(query);
+            try
+            {
+                _logger.LogInformation("Executing query: {Query}", query);
 
-            return await queryResult.Rows.ToListAsync();
+                var queryResult = await _cluster.QueryAsync<dynamic>(query);
+
+                return await queryResult.Rows.ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Query execution failed : {Query}", query);
+
+                return default;
+            }
+            
+          
         }
 
         public async Task<List<dynamic>> GetMonthlyStatisticsAsync(string bucketName, int year)
@@ -133,9 +196,20 @@ namespace Persistence.Repository
                         FROM filteredOrders
                         GROUP BY month;";
 
-            var queryResult = await _cluster.QueryAsync<dynamic>(query);
+            try
+            {
+                _logger.LogInformation("Executing query: {Query}", query);
 
-            return await queryResult.Rows.ToListAsync();
+                var queryResult = await _cluster.QueryAsync<dynamic>(query);
+
+                return await queryResult.Rows.ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Query execution failed : {Query}", query);
+
+                return default;
+            }            
         }
     }
 }

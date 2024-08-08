@@ -1,4 +1,5 @@
 ﻿using Application.Constants;
+using Application.Extensions;
 using Application.Persistence;
 using Domain.Entities;
 
@@ -22,7 +23,7 @@ namespace Application.Features.Statistics.GetMonthlyStatistics
         {
             var filteredMonthlyStatistics = await _orderRepository.GetMonthlyStatisticsAsync(AppConstants.OrderBucket, request.Year);
 
-            if (!filteredMonthlyStatistics.Any())
+            if (!filteredMonthlyStatistics.NotNullOrEmpty())
             {
                 return new List<GetMonthlyStatisticsQueryResponse>();
             }
