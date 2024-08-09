@@ -65,5 +65,9 @@ namespace Application.Constants
         public const string LastModifiedDateField = "lastModifiedDate";
         public const string OutOfStockField = "outOfStock";
         public const string OrderDateField = "orderDate";
+
+        public const string RequestOwnerId = "request-owner-id";
+        public const string Role = "role";
+        public const string AuthenticationScheme = "Fake";
     }
 }

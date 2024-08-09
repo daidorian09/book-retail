@@ -1,8 +1,7 @@
-﻿using Application.Exceptions;
+﻿using Application.Constants;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
-using Polly;
 using System.Security.Claims;
 using System.Text.Encodings.Web;
 
@@ -10,9 +9,6 @@ namespace Infrastructure.Authorization;
 
 public class FakeAuthHandler : AuthenticationHandler<FakeAuthHandlerOptions>
 {
-    private const string RequestOwnerId = "request-owner-id";
-    private const string Role = "role";
-
     public const string AuthenticationScheme = "Fake";
 
     public FakeAuthHandler(
@@ -33,12 +29,12 @@ public class FakeAuthHandler : AuthenticationHandler<FakeAuthHandlerOptions>
             new Claim(ClaimTypes.Email, "fakeuser@gmail.com"),
         };
 
-        AddClaimFromHeader(Context, RequestOwnerId, ClaimTypes.NameIdentifier, claims);
-        AddClaimFromHeader(Context, Role, ClaimTypes.Role, claims);
+        AddClaimFromHeader(Context, AppConstants.RequestOwnerId, ClaimTypes.NameIdentifier, claims);
+        AddClaimFromHeader(Context, AppConstants.Role, ClaimTypes.Role, claims);
 
-        var identity = new ClaimsIdentity(claims, AuthenticationScheme);
+        var identity = new ClaimsIdentity(claims, AppConstants.AuthenticationScheme);
         var principal = new ClaimsPrincipal(identity);
-        var ticket = new AuthenticationTicket(principal, AuthenticationScheme);
+        var ticket = new AuthenticationTicket(principal, AppConstants.AuthenticationScheme);
 
         var result = AuthenticateResult.Success(ticket);
 

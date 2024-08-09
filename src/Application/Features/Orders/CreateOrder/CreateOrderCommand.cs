@@ -3,7 +3,6 @@ using Application.Exceptions;
 using Application.Persistence;
 using Domain.Entities;
 using Domain.Enums;
-using Application.Exceptions;
 
 namespace Application.Features.Orders.CreateOrder;
 
