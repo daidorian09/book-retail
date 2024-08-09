@@ -122,14 +122,6 @@ Endpoints are stubbed via Wiremock and responses are exactly asserted.
 ### Unit Tests
 AutoFixture, Moq, and Shouldly libraries are used.
 
-# Support
-
-If you are having problems, please let me know by  [raising a new issue](https://github.com/ibrahimuludag/CleanArchitecture/issues/new)
-
-# Licence
-This project is licensed with the  [MIT license](https://github.com/ibrahimuludag/CleanArchitecture/blob/main/LICENSE)
-
-
 # Todo
 - Test coverage improvement e.g repository test cases, book controller integration test cases
 - Database seeder and migration
