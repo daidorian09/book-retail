@@ -1,0 +1,505 @@
+{
+	"info": {
+		"_postman_id": "a19ddcf5-6da9-4bf3-a109-df159bacdf06",
+		"name": "book-retail-collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "http://localhost:5158/api/v1/Customer/list/1/2",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "request-owner-id",
+						"value": "3c101fc5-24d9-4398-8de3-9976c5587e19",
+						"type": "text"
+					},
+					{
+						"key": "role",
+						"value": "Customer",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstName\": \"test\",\r\n    \"lastName\" : \"test\",\r\n    \"address\" : \"test\",\r\n    \"email\" : \"yigit.at@gmail.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5158/api/v1/Customer/list/1/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5158",
+					"path": [
+						"api",
+						"v1",
+						"Customer",
+						"list",
+						"1",
+						"2"
+					]
+				},
+				"description": "List customer order with pagination"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:5158/api/v1/customer",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "request-owner-id",
+						"value": "12345",
+						"type": "text"
+					},
+					{
+						"key": "role",
+						"value": "Customer",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstName\": \"test\",\r\n    \"lastName\" : \"test\",\r\n    \"address\" : \"test\",\r\n    \"email\" : \"test@gmail.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5158/api/v1/customer",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5158",
+					"path": [
+						"api",
+						"v1",
+						"customer"
+					]
+				},
+				"description": "Create customer"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:5158/api/v1/customer",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "request-owner-id",
+						"value": "12345",
+						"type": "text"
+					},
+					{
+						"key": "role",
+						"value": "Customer",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstName\": \"\",\r\n    \"lastName\" : \"\",\r\n    \"address\" : \"\",\r\n    \"email\" : \"\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5158/api/v1/customer",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5158",
+					"path": [
+						"api",
+						"v1",
+						"customer"
+					]
+				},
+				"description": "Return validation results"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:5158/api/v1/Statistics/monthly-statistics/2024",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "request-owner-id",
+						"value": "123456",
+						"type": "text"
+					},
+					{
+						"key": "role",
+						"value": "Admin",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "http://localhost:5158/api/v1/Statistics/monthly-statistics/2024",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5158",
+					"path": [
+						"api",
+						"v1",
+						"Statistics",
+						"monthly-statistics",
+						"2024"
+					]
+				},
+				"description": "Return 403 status code"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:5158/api/v1/Statistics/monthly-statistics/2024",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "request-owner-id",
+						"value": "12345",
+						"type": "text"
+					},
+					{
+						"key": "role",
+						"value": "Admin",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:5158/api/v1/Statistics/monthly-statistics/2024",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5158",
+					"path": [
+						"api",
+						"v1",
+						"Statistics",
+						"monthly-statistics",
+						"2024"
+					],
+					"query": [
+						{
+							"key": "request-owner-id",
+							"value": "12345",
+							"disabled": true
+						},
+						{
+							"key": "role",
+							"value": "Admin",
+							"disabled": true
+						}
+					]
+				},
+				"description": "List monthly statistics data"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:5158/api/v1/book",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "request-owner-id",
+						"value": "123456",
+						"type": "text"
+					},
+					{
+						"key": "role",
+						"value": "Customer",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n \"id\": \"7ba3d51b-e6b7-46a4-98bc-4f74473adc58\",\r\n  \"quantity\": 25\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5158/api/v1/book",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5158",
+					"path": [
+						"api",
+						"v1",
+						"book"
+					]
+				},
+				"description": "Update book stock"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:5158/api/v1/book",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "request-owner-id",
+						"value": "123456",
+						"type": "text"
+					},
+					{
+						"key": "role",
+						"value": "Customer",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"author\": \"Test\",\r\n  \"title\": \"test\",\r\n  \"isbn\": \"1-56619-909-3\",\r\n  \"image\": \"test.png\",\r\n  \"price\": 100,\r\n  \"quantity\": 100\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5158/api/v1/book",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5158",
+					"path": [
+						"api",
+						"v1",
+						"book"
+					]
+				},
+				"description": "Create book"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:5158/api/v1/book",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "request-owner-id",
+						"value": "12345",
+						"type": "text"
+					},
+					{
+						"key": "role",
+						"value": "Customer",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"author\": \"\",\r\n  \"title\": \"\",\r\n  \"isbn\": \"978-1-12345-909-4 2\",\r\n  \"image\": \"test.png\",\r\n  \"price\": -1,\r\n  \"quantity\": -1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5158/api/v1/book",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5158",
+					"path": [
+						"api",
+						"v1",
+						"book"
+					]
+				},
+				"description": "Return validation results"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:5158/api/v1/Order",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"customer\": {\r\n    \"id\": \"3c101fc5-24d9-4398-8de3-9976c5587e19\",\r\n    \"firstName\": \"test\",\r\n    \"lastName\": \"test\"\r\n  },\r\n  \"items\": [\r\n    {\r\n      \"id\": \"4ef0d7b9-dc15-4892-b3e9-fe9cd6af1060\",\r\n      \"author\": \"Test\",\r\n      \"title\": \"Test\",\r\n      \"price\": 100,\r\n      \"quantity\": 1,\r\n      \"bookStatus\": \"Created\"\r\n    }\r\n  ],\r\n  \"total\": 100,\r\n  \"shipmentAddress\": \"Test\",\r\n  \"paymentMethod\": \"Cash\",\r\n  \"orderStatus\": \"Created\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5158/api/v1/Order",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5158",
+					"path": [
+						"api",
+						"v1",
+						"Order"
+					]
+				},
+				"description": "Create Order"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:5158/api/v1/order/f0e1840d-1b3a-4b0e-8ca2-41146f3f6b47",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "request-owner-id",
+						"value": "123456",
+						"type": "text"
+					},
+					{
+						"key": "role",
+						"value": "Customer",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:5158/api/v1/order/f0e1840d-1b3a-4b0e-8ca2-41146f3f6b47",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5158",
+					"path": [
+						"api",
+						"v1",
+						"order",
+						"f0e1840d-1b3a-4b0e-8ca2-41146f3f6b47"
+					]
+				},
+				"description": "Get order"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:5158/api/v1/Order",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "request-owner-id",
+						"value": "12345",
+						"type": "text"
+					},
+					{
+						"key": "role",
+						"value": "Customer",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"customer\": {\r\n    \"id\": \"3c101fc5-24d9-4398-8de3-9976c5587e19\",\r\n    \"firstName\": \"test\",\r\n    \"lastName\": \"test\"\r\n  },\r\n  \"items\": [\r\n  ],\r\n  \"total\": -1,\r\n  \"shipmentAddress\": \"\",\r\n  \"paymentMethod\": \"Cash\",\r\n  \"orderStatus\": \"Created\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5158/api/v1/Order",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5158",
+					"path": [
+						"api",
+						"v1",
+						"Order"
+					]
+				},
+				"description": "Return validation results"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:5158/api/v1/Order/list/1713072377/1723082379",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "request-owner-id",
+						"value": "12345",
+						"type": "text"
+					},
+					{
+						"key": "role",
+						"value": "Customer",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:5158/api/v1/Order/list/1713072377/1723082379",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5158",
+					"path": [
+						"api",
+						"v1",
+						"Order",
+						"list",
+						"1713072377",
+						"1723082379"
+					]
+				},
+				"description": "List orders between start and end date"
+			},
+			"response": []
+		}
+	]
+}
