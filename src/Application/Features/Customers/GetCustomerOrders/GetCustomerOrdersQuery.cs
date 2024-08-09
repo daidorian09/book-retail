@@ -10,6 +10,7 @@ namespace Application.Features.Customers.GetCustomerOrders
 {
     public class GetCustomerOrdersQuery : IRequest<Result<PaginatedList<GetCustomerOrdersQueryResponse>>>
     {
+        public string CustomerId { get; set; }
         public int PageNumber { get; set; }
         public int PageSize { get; set; }
 
@@ -26,7 +27,7 @@ namespace Application.Features.Customers.GetCustomerOrders
 
         public async Task<Result<PaginatedList<GetCustomerOrdersQueryResponse>>> Handle(GetCustomerOrdersQuery request, CancellationToken cancellationToken)
         {
-            var paginatedOrders = await _orderRepository.GetWithPaginationAsync(AppConstants.OrderBucket, AppConstants.CustomerIdField, "02b4aeac-81fb-4e55-8070-faed6ae94597", request.PageNumber, request.PageSize);
+            var paginatedOrders = await _orderRepository.GetWithPaginationAsync(AppConstants.OrderBucket, AppConstants.CustomerIdField, request.CustomerId, request.PageNumber, request.PageSize);
 
             if(!paginatedOrders.NotNullOrEmpty())
             {

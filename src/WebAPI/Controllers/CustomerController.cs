@@ -3,6 +3,7 @@ using Application.Features.Customers.GetCustomerOrders;
 using Application.Models;
 using CleanArchitecture.Application.Features.Products.GetPagedProducts;
 using Infrastructure.Controllers;
+using Infrastructure.Extensions;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -25,7 +26,7 @@ public class CustomerController : ControllerBase
     [ApiConventionMethod(typeof(ApiConventions), nameof(ApiConventions.Create))]
     [HttpPost(Name = "CreateCustomer")]
     [Authorize(Roles = "Customer")]
-    public async Task<ActionResult> Create(CreateCustomerCommand command)
+    public async Task<ActionResult> Create(CreateCustomerCommand command, [FromHeader(Name = "request-owner-id")] string requestOwnerId, [FromHeader(Name = "role")] string role)
     {
         var result = await _mediator.Send(command);
         return result.ToCreatedHttpResponse();
@@ -35,9 +36,10 @@ public class CustomerController : ControllerBase
     [HttpGet("list/{pageNumber:int}/{pageSize:int}", Name = "GetCustomerOrdersWithPagination")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PaginatedList<GetCustomerOrdersQueryResponse>))]
     [Authorize(Roles = "Customer")]
-    public async Task<ActionResult> GetPaginatedCustomerOrders(int pageNumber, int pageSize)
+    public async Task<ActionResult> GetPaginatedCustomerOrders(int pageNumber, int pageSize, [FromHeader(Name = "request-owner-id")] string requestOwnerId,
+        [FromHeader(Name = "role")] string role)
     {
-        var result = await _mediator.Send(new GetCustomerOrdersQuery { PageNumber = pageNumber, PageSize = pageSize });
+        var result = await _mediator.Send(new GetCustomerOrdersQuery { PageNumber = pageNumber, PageSize = pageSize, CustomerId = User.GetUserId() });
         return result.ToHttpResponse();
     }
 }

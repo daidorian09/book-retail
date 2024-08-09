@@ -102,10 +102,10 @@ namespace Tests.Integration.Statistics
             var responseBody = await response.Content.ReadAsStringAsync();
 
             var expectedJson = @"
-                    {
-                        ""detail"": ""Access denied. You do not have permission to access this resource."",
-                        ""title"": ""Authentication Error""
-                    }";
+                                 {
+                                     ""detail"": ""Access denied. You do not have permission to access this resource."",
+                                     ""title"": ""Authentication Error""
+                                 }";
 
             responseBody.Trim().ShouldBe(expectedJson.Trim());
         }

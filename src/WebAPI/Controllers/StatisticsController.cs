@@ -23,7 +23,8 @@ public class StatisticsController : ControllerBase
     [HttpGet("monthly-statistics/{year:int}", Name = "GetMonthlyStatistics")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<GetMonthlyStatisticsQueryResponse>))]
     [Authorize(Roles = "Admin")]
-    public async Task<ActionResult> GetMonthlyStatistics(int year)
+    public async Task<ActionResult> GetMonthlyStatistics(int year, [FromHeader(Name = "request-owner-id")] string requestOwnerId,
+        [FromHeader(Name = "role")] string role)
     {
         var result = await _mediator.Send(new GetMonthlyStatisticsQuery { Year = year });
         return result.ToHttpResponse();

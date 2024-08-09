@@ -2,6 +2,8 @@
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Versioning;
+using Microsoft.OpenApi.Models;
+using WebAPI.Filters;
 
 namespace WebAPI.Infrastructure;
 
@@ -10,7 +12,6 @@ public static class Bootstrap
     public static IServiceCollection AddInfrastructure(this WebApplicationBuilder builder)
     {
         builder.Services.AddHttpContextAccessor();
-        //  builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
 
         builder.Services.AddApiVersioning(options =>
         {
@@ -27,8 +28,13 @@ public static class Bootstrap
         });
 
         builder.Services.AddEndpointsApiExplorer();
-        builder.Services.AddSwaggerGen();
+        builder.Services.AddSwaggerGen(c =>
+        {
+            c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
 
+            // Register the custom operation filter
+            c.OperationFilter<HeaderOperationFilter>();
+        });
 
         builder.Services.AddFluentValidationAutoValidation(conf =>
         {

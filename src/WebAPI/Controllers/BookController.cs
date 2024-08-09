@@ -23,7 +23,7 @@ public class BookController : ControllerBase
     [ApiConventionMethod(typeof(ApiConventions), nameof(ApiConventions.Create))]
     [HttpPost(Name = "CreateBook")]
     [Authorize(Roles = "Customer")]
-    public async Task<ActionResult> Create(CreateBookCommand command)
+    public async Task<ActionResult> Create(CreateBookCommand command, [FromHeader(Name = "request-owner-id")] string requestOwnerId, [FromHeader(Name = "role")] string role)
     {
         var result = await _mediator.Send(command);
         return result.ToCreatedHttpResponse();
@@ -32,7 +32,8 @@ public class BookController : ControllerBase
     [ApiConventionMethod(typeof(ApiConventions), nameof(ApiConventions.Update))]
     [HttpPatch(Name = "UpdateBookStock")]
     [Authorize(Roles = "Customer")]
-    public async Task<ActionResult> Update(UpdateBookStockCommand command)
+    public async Task<ActionResult> Update(UpdateBookStockCommand command, [FromHeader(Name = "request-owner-id")] string requestOwnerId,
+        [FromHeader(Name = "role")] string role)
     {
         var result = await _mediator.Send(command);
         return result.ToCreatedNoContentResponse();

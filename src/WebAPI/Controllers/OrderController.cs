@@ -23,7 +23,8 @@ public class OrderController : ControllerBase
     [ApiConventionMethod(typeof(ApiConventions), nameof(ApiConventions.Create))]
     [HttpPost(Name = "CreateOrder")]
     [Authorize(Roles = "Customer")]
-    public async Task<ActionResult> Create(CreateOrderCommand command)
+    public async Task<ActionResult> Create(CreateOrderCommand command, [FromHeader(Name = "request-owner-id")] string requestOwnerId,
+        [FromHeader(Name = "role")] string role)
     {
         var result = await _mediator.Send(command);
         return result.ToCreatedHttpResponse();
@@ -32,7 +33,7 @@ public class OrderController : ControllerBase
     [ApiConventionMethod(typeof(ApiConventions), nameof(ApiConventions.Get))]
     [HttpGet("{id:Guid}", Name = "GetOrder")]
     [Authorize(Roles = "Customer")]
-    public async Task<ActionResult> Get(Guid id)
+    public async Task<ActionResult> Get(Guid id, [FromHeader(Name = "request-owner-id")] string requestOwnerId, [FromHeader(Name = "role")] string role)
     {
         var result = await _mediator.Send(new GetOrderQuery { Id = id.ToString() });
         return result.ToHttpResponse();
@@ -42,7 +43,8 @@ public class OrderController : ControllerBase
     [HttpGet("list/{startDate:int}/{endDate:int}", Name = "GetOrdersWithDate")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(List<GetOrdersWithDateQueryResponse>))]
     [Authorize(Roles = "Customer")]
-    public async Task<ActionResult> GetOrdersWithDate(long startDate, long endDate)
+    public async Task<ActionResult> GetOrdersWithDate(long startDate, long endDate, [FromHeader(Name = "request-owner-id")] string requestOwnerId,
+        [FromHeader(Name = "role")] string role)
     {
         var result = await _mediator.Send(new GetOrdersWithDateQuery { StartDate = startDate, EndDate = endDate });
         return result.ToHttpResponse();

@@ -31,6 +31,7 @@ public partial class Program {
         app.UseMiddleware<ExceptionHandlingMiddleware>();
         app.UseSerilogRequestLogging();
 
+
         app.UseOpenApi();
         app.UseSwaggerUI();
 
