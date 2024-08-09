@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  api:
+    container_name: book-retail-case-study-api
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5001:5001"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - COUCHBASE__HOST=couchbase
+      - COUCHBASE__BUCKET1=book
+      - COUCHBASE__BUCKET2=order
+      - COUCHBASE__BUCKET2=customer
+      - COUCHBASE__USERNAME=Administrator
+      - COUCHBASE__PASSWORD=Administrator
+    depends_on:
+      - couchbase
+    restart: on-failure
+    volumes:
+      - ./src:/app/src
+
+couchbase:
+    image: couchbase:community
+    ports:
+      - "8091:8091" # Couchbase Admin UI
+      - "8092:8092" # Couchbase Query Service
+      - "8093:8093" # Couchbase Query Service
+      - "8094:8094" # Couchbase Full Text Search Service
+      - "11210:11210" # Couchbase Data Service
+    environment:
+      - COUCHBASE_ADMIN_USERNAME=Administrator
+      - COUCHBASE_ADMIN_PASSWORD=Administrator
+    volumes:
+      - couchbase-data:/opt/couchbase/var
+      - couchbase-init:/opt/couchbase/init
+
+volumes:
+  couchbase-data:
+  couchbase-init:

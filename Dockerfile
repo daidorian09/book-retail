@@ -1,24 +1,20 @@
-#See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
-
-FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
-WORKDIR /app
-EXPOSE 80
-EXPOSE 443
-
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
-ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["BookRetailCaseStudy.csproj", "."]
-RUN dotnet restore "./././BookRetailCaseStudy.csproj"
-COPY . .
-WORKDIR "/src/."
-RUN dotnet build "./BookRetailCaseStudy.csproj" -c $BUILD_CONFIGURATION -o /app/build
+COPY ["src/WebAPI/WebAPI.csproj", "WebAPI/"]
+COPY ["src/Application/Application.csproj", "Application/"]
+COPY ["src/Domain/Domain.csproj", "Domain/"]
+COPY ["src/Infrastructure/Infrastructure.csproj", "Infrastructure/"]
+COPY ["src/Persistence/Persistence.csproj", "Persistence/"]
+RUN dotnet restore "WebAPI/WebAPI.csproj"
+COPY . ../
+WORKDIR /src/WebAPI
+RUN dotnet build "WebAPI.csproj" -c Release -o /app/build
 
 FROM build AS publish
-ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./BookRetailCaseStudy.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish --no-restore -c Release -o /app/publish
 
-FROM base AS final
+FROM mcr.microsoft.com/dotnet/aspnet:7.0
+EXPOSE 5001
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "BookRetailCaseStudy.dll"]
+ENTRYPOINT ["dotnet", "WebAPI.dll"]
